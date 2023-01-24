@@ -4,6 +4,7 @@ namespace MultiPageAppApierce.Models
 {
     public class Contact
     {
+        public int ContactId { get; set; }
         [Required(ErrorMessage = "Please enter a name.")]
         public string? Name { get; set; }
         [Required(ErrorMessage = "Please enter a Phone Number.")]

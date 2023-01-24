@@ -13,6 +13,7 @@ namespace MultiPageAppApierce.Models
             modelBuilder.Entity<Contact>().HasData(
                 new Contact
                 {
+                    ContactId = 1,
                     Name = "Jack Burton",
                     PhoneNumber = "5558675309",
                     Address = "Visalia, California",
@@ -20,6 +21,7 @@ namespace MultiPageAppApierce.Models
                 },
                 new Contact
                 {
+                    ContactId = 2,
                     Name = "Ellen Ripley",
                     PhoneNumber = "9035768555",
                     Address = "Olympia Colony, Luna",
@@ -27,13 +29,14 @@ namespace MultiPageAppApierce.Models
                 },
                 new Contact
                 {
+                    ContactId = 3,
                     Name = "Korben Dallas",
                     PhoneNumber = "C4765536",
                     Address = "West Park Alleys 281 Level 21 / PIER 23-28 HA CON 37 / 144E NY, NY 10024",
                     Note = "Negative, I am a meat popsicle."
                 }
 
-            );
+            ); ;
         }
     }
 }
