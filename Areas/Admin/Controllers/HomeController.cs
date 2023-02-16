@@ -2,11 +2,12 @@
 using MultiPageAppApierce.Models;
 using System.Diagnostics;
 
-namespace MultiPageAppApierce.Controllers
+namespace MultiPageAppApierce.Admin.Areas.Controllers
 {
+    [Area("Admin")]
     public class HomeController : Controller
     {
-        [Route("/")]
+        [Route("Admin/")]
         public IActionResult Index()
         {
             return View();
