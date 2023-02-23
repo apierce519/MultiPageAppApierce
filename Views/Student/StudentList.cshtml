@@ -1,0 +1,71 @@
+﻿@model List<Student>
+@{
+    ViewBag.Title = "Students";
+}
+<h2>Student List</h2>
+<a asp-controller="Student" asp-action="">Add New Student</a>
+@if (ViewBag.AccessLevel >= 8)
+{
+    <h2>Hello Admin</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Grade</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.Grade</td>
+                    <td>
+                        <a asp-controller="Other" asp-action="Edit"
+                   asp-route-id="@student.StudentId"
+                           class="btn btn-primary invisible">Edit</a>
+                        <a asp-controller="Other" asp-action="Delete"
+                   asp-route-id="@student.StudentId"
+                           class="btn btn-primary invisible">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (ViewBag.AccessLevel >= 2)
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>
+                        <a asp-controller="Other" asp-action="Edit"
+                   asp-route-id="@student.StudentId"
+                           class="btn btn-primary invisible">Edit</a>
+                        <a asp-controller="Other" asp-action="Delete"
+                   asp-route-id="@student.StudentId"
+                           class="btn btn-primary invisible">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1>You do not have a sufficient access level to view this data.</h1>
+}

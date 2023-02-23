@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using MultiPageAppApierce.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ContactContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ContactContext")));
+
+builder.Services.AddDbContext<StudentContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StudentContext")));
 
 builder.Services.AddRouting(options =>
 {
@@ -36,6 +39,11 @@ app.UseEndpoints(endpoint =>
     endpoint.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
+
+    endpoint.MapControllerRoute(
+        name: "student",
+        pattern: "{controller=Student}/{action}/{id=UrlParameter.Optional}"
+        );
 
     endpoint.MapAreaControllerRoute(
         name: "area",
