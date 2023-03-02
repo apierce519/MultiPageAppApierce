@@ -11,6 +11,8 @@ builder.Services.AddDbContext<ContactContext>(options => options.UseSqlServer(bu
 
 builder.Services.AddDbContext<StudentContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StudentContext")));
 
+builder.Services.AddDbContext<CountryContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CountryContext")));
+
 builder.Services.AddRouting(options =>
 {
     options.LowercaseUrls = true;
@@ -42,8 +44,13 @@ app.UseEndpoints(endpoint =>
 
     endpoint.MapControllerRoute(
         name: "student",
-        pattern: "{controller=Student}/{action}/{id=UrlParameter.Optional}"
+        pattern: "{controller=Student}/{action}/{id?}"
         );
+
+    endpoint.MapControllerRoute(
+        name: "country",
+        pattern: "{controller=Country}/{action=Index}/cat-{activeCategory}/gam-{activeGame}"
+    );
 
     endpoint.MapAreaControllerRoute(
         name: "area",

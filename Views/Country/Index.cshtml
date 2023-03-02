@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Country>
+@{
+    ViewBag.Title = "Country Olympics";
+}
+<h2>Country Olympics</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <h3>Category</h3>
+        <div class="list-group">
+            <a asp-action="Index" asp-route-activeCategory="all" asp-route-activeGame="@ViewBag.ActiveGame" class="list-group-item">All</a>
+            @foreach (Category cat in ViewBag.Category)
+            {
+                <a asp-action="Index" asp-route-activeCategory="@cat.CategoryId" asp-route-activeGame="@ViewBag.ActiveGame" class="list-group-item">@cat.CategoryName</a>
+            }
+        </div>
+        <h3>Game</h3>
+        <div class="list-group">
+            <a asp-action="Index" asp-route-activeGame="all" asp-route-activeCategory="@ViewBag.ActiveCategory" class="list-group-item">All</a>
+            @foreach (Game gam in ViewBag.Game)
+            {
+                <a asp-action="Index" asp-route-activeCategory="@gam.GameId" asp-route-activeGame="@ViewBag.ActiveCategory" class="list-group-item">@gam.GameName</a>
+
+            }
+        </div>
+    </div>
+    <div class="col-md-9">
+        <ul class="list-inline">
+            @foreach (Country country in Model)
+            {
+                <li class="list-inline-item">
+                    <img style="width: 120px; height: 80px;" src="~/images/@country.CountryFlag" alt="@country.Name" title="@country.Name | @country.Category.CategoryName @country.Game.GameName" />
+                </li>
+            }
+        </ul>
+    </div>
+</div>
