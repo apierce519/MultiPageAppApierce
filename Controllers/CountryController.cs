@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MultiPageAppApierce.Models;
+using System.Diagnostics.Metrics;
+using System.Text.Json;
 
 namespace MultiPageAppApierce.Controllers
 {
@@ -11,28 +14,52 @@ namespace MultiPageAppApierce.Controllers
             this.context = context;
 
         }
-        public ViewResult Index(string activeGame = "all", string activeCategory = "all")
+        public ViewResult Index(CountriesViewModel model)
         {
-            ViewBag.ActiveGame = activeGame;
-            ViewBag.ActiveCategory = activeCategory;
+            var session = new CountrySession(HttpContext.Session);
+            session.SetActiveCateg(model.ActiveCategory);
+            session.SetActiveGame(model.ActiveGame);
 
-            ViewBag.Category = context.Categories.ToList();
-            ViewBag.Game = context.Games.ToList();
+            model.Categories = context.Categories.ToList();
+            model.Games = context.Games.ToList();
 
             IQueryable<Country> query = context.Countries.OrderBy(t => t.Name);
 
-            if (activeCategory != "all")
+            if (model.ActiveCategory != "all")
             {
-                query = query.Where(t => t.Category.CategoryId.ToLower() == activeCategory.ToLower());
+                query = query.Where(t => t.Category.CategoryId.ToLower() == model.ActiveCategory.ToLower());
             }
-            if (activeGame != "all")
+            if (model.ActiveGame != "all")
             {
-                query = query.Where(t => t.Game.GameId.ToLower() == activeGame.ToLower());
+                query = query.Where(t => t.Game.GameId.ToLower() == model.ActiveGame.ToLower());
             }
+            model.Countries = query.ToList();
 
-            var country = query.ToList();
+            return View(model);
 
-            return View(country);
+        }
+
+        public ViewResult Details(string id)
+        {
+            var session = new CountrySession(HttpContext.Session);
+            var model = new CountriesViewModel
+            {
+                Country = context.Countries
+                .Include(t => t.Game)
+                .Include(t => t.Category)
+                .FirstOrDefault(t => t.CountryId == id) ?? new Country(),
+                ActiveGame = session.GetActiveGame(),
+                ActiveCategory = session.GetActiveCateg()
+            };
+            return View(model);
+
+            //    var country = context.Countries
+            //        .Include(t => t.Name)
+            //        .Include(t => t.Game)
+            //        .Include(t => t.Category)
+            //        .FirstOrDefault(t => t.CountryId == id) ?? new Country();
+            //        return View(country);
+            //}
         }
     }
 }
