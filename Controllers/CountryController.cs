@@ -21,12 +21,12 @@ namespace MultiPageAppApierce.Controllers
             session.SetActiveGame(model.ActiveGame);
 
             int? count = session.GetMyCountryCount();
-            if(!count.HasValue)
+            if (!count.HasValue)
             {
                 var cookies = new CountryCookies(Request.Cookies);
                 string[] ids = cookies.GetMyCountryIds();
 
-                if(ids.Length > 0)
+                if (ids.Length > 0)
                 {
                     var myCountries = context.Countries
                         .Include(c => c.Category)
