@@ -20,6 +20,23 @@ namespace MultiPageAppApierce.Controllers
             session.SetActiveCateg(model.ActiveCategory);
             session.SetActiveGame(model.ActiveGame);
 
+            int? count = session.GetMyCountryCount();
+            if(!count.HasValue)
+            {
+                var cookies = new CountryCookies(Request.Cookies);
+                string[] ids = cookies.GetMyCountryIds();
+
+                if(ids.Length > 0)
+                {
+                    var myCountries = context.Countries
+                        .Include(c => c.Category)
+                        .Include(c => c.Game)
+                        .Where(c => ids.Contains(c.CountryId))
+                        .ToList();
+                    session.SetMyCountries(myCountries);
+                }
+            }
+
             model.Categories = context.Categories.ToList();
             model.Games = context.Games.ToList();
 
@@ -39,7 +56,7 @@ namespace MultiPageAppApierce.Controllers
 
         }
 
-        public ViewResult Details(string id)
+        public IActionResult Details(string id)
         {
             var session = new CountrySession(HttpContext.Session);
             var model = new CountriesViewModel
@@ -52,14 +69,6 @@ namespace MultiPageAppApierce.Controllers
                 ActiveCategory = session.GetActiveCateg()
             };
             return View(model);
-
-            //    var country = context.Countries
-            //        .Include(t => t.Name)
-            //        .Include(t => t.Game)
-            //        .Include(t => t.Category)
-            //        .FirstOrDefault(t => t.CountryId == id) ?? new Country();
-            //        return View(country);
-            //}
         }
     }
 }

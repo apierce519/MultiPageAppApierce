@@ -39,6 +39,8 @@ namespace MultiPageAppApierce.Controllers
                 .FirstOrDefault() ?? new Country();
 
             var session = new CountrySession(HttpContext.Session);
+            var cookies = new CountryCookies(Response.Cookies);
+
             var countries = session.GetMyCountries();
             countries.Add(country);
             session.SetMyCountries(countries);
@@ -57,7 +59,10 @@ namespace MultiPageAppApierce.Controllers
         public RedirectToActionResult Delete()
         {
             var session = new CountrySession(HttpContext.Session);
+            var cookies = new CountryCookies(Response.Cookies);
+
             session.RemoveMyCountries();
+            cookies.RemoveMyCountryIds();
 
             TempData["message"] = "Favorite teams cleared";
 

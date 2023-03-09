@@ -6,7 +6,7 @@
 <div class="text-center">
     <h2>@(String.IsNullOrEmpty(Model.UserName) ? "My" : Model.UserName + "'s") Favorites</h2>
     <form asp-action="Delete" method="post">
-        <a asp-action="Index" asp-controller="Favorites" class="btn btn-primary"
+        <a asp-action="Index" asp-controller="Country" class="btn btn-primary"
         asp-route-activeCategory="@Model.ActiveCategory"
         asp-route-activeGame="@Model.ActiveGame">
             Back to Home Page
