@@ -22,7 +22,10 @@
                     <a asp-action="Index" class="btn btn-primary"
                        asp-route-activeCategory="@Model.ActiveCategory"
                        asp-route-activeGame="@Model.ActiveGame">Return to Home Page</a>
-                    <button type="submit" class="btn btn-primary">Add to Favorites</button>
+                    <button type="submit" class="btn btn-primary"
+                            name="Country.CountryId" value="@Model.Country.CountryId">
+                        Add to Favorites
+                    </button>
                 </form>
                 <input type="hidden" asp-for="Country.CountryId" />
             </li>
