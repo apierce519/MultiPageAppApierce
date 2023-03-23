@@ -44,6 +44,7 @@ namespace MultiPageAppApierce.Controllers
             var countries = session.GetMyCountries();
             countries.Add(country);
             session.SetMyCountries(countries);
+            cookies.SetMyCountryIds(countries);
 
             TempData["message"] = $"{country.Name} added to your favorites";
 

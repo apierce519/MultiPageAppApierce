@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Ticket>
+
+<div class="row">
+    <div class="col-md-2">
+        <form asp-action="Filter" method="post">
+            <div class="mb-3">
+                <label class="form-label">Status:</label>
+                <select name="filter" class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Statuses,
+                    "StatusId", "Name", ViewBag.Filters.StatusId))">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="Index" asp-route-id="" class="btn btn-primary">Clear</a>
+        </form>
+    </div>
+
+    <div class="col-md-10">
+
+        <form asp-action="MarkComplete" method="post"
+              asp-route-id="@ViewBag.Filters.FilterString">
+
+            <table class="table table-bordered table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Sprint Number</th>
+                        <th>Point Value</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Ticket t in Model)
+                    {
+                        @if (@t.StatusId == "open")
+                        {
+                            <button type="submit" class="btn btn-primary btn-sm"
+                                    name="@nameof(t.Id)" value="@t.Id">
+                                Mark Completed
+                            </button>
+                        }
+                    }
+                </tbody>
+            </table>
+        </form>
+        <form asp-action="DeleteComplete" method="post"
+              asp-route-id="@ViewBag.Filters.FilterString">
+
+            <a asp-action="Add" class="btn btn-primary">Add new task</a>
+            <button type="submit" class="btn btn-primary">Delete completed tasks</button>
+        </form>
+    </div>
+
+</div>

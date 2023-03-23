@@ -14,7 +14,8 @@ namespace MultiPageAppApierce.Controllers
             this.context = context;
 
         }
-        public ViewResult Index(CountriesViewModel model)
+
+        public IActionResult Index(CountriesViewModel model)
         {
             var session = new CountrySession(HttpContext.Session);
             session.SetActiveCateg(model.ActiveCategory);
@@ -28,12 +29,12 @@ namespace MultiPageAppApierce.Controllers
 
                 if (ids.Length > 0)
                 {
-                    var myCountries = context.Countries
-                        .Include(c => c.Category)
-                        .Include(c => c.Game)
-                        .Where(c => ids.Contains(c.CountryId))
+                    var mycountry = context.Countries
+                        .Include(x => x.Category)
+                        .Include(x => x.Game)
+                        .Where(x => ids.Contains(x.CountryId))
                         .ToList();
-                    session.SetMyCountries(myCountries);
+                    session.SetMyCountries(mycountry);
                 }
             }
 
@@ -41,7 +42,6 @@ namespace MultiPageAppApierce.Controllers
             model.Games = context.Games.ToList();
 
             IQueryable<Country> query = context.Countries.OrderBy(t => t.Name);
-
             if (model.ActiveCategory != "all")
             {
                 query = query.Where(t => t.Category.CategoryId.ToLower() == model.ActiveCategory.ToLower());
@@ -50,10 +50,9 @@ namespace MultiPageAppApierce.Controllers
             {
                 query = query.Where(t => t.Game.GameId.ToLower() == model.ActiveGame.ToLower());
             }
-            model.Countries = query.ToList();
+
 
             return View(model);
-
         }
 
         public IActionResult Details(string id)
