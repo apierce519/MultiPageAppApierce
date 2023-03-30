@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Ticket>
+
+<div class="row">
+    <div class="col-md-2">
+        <form asp-action="Filter" method="post">
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="filter" class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Statuses, "StatusId", "Name", ViewBag.Filters.StatusId))">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="Index" asp-route-id="" class="btn btn-primary">Clear</a>
+        </form>
+    </div>
+    <div class="col-md-10">
+        <form asp-action="MarkComplete" method="post"
+              asp-route-id="@ViewBag.Filters.FilterString">
+            <table class="table table-bordered table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Sprint Number</th>
+                        <th>Point Value</th>
+                        <th>Status</th>
+                        <th class="w-25"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Ticket tick in Model)
+                    {
+                    <td>
+                            @if (@tick.StatusId == "open")
+                            {
+                            <button type="submit" class="btn btn-primary btn-sm"
+                                    name="@nameof(Ticket.Id)" value="@tick.Id">
+                            </button>
+                            }
+                    </td>
+                    }
+                </tbody>
+            </table>
+        </form>
+        <form asp-action="DeleteComplete" method="post"
+              asp-route-id="@ViewBag.Filters.FilterString">
+            <a asp-action="Add" class="btn btn-primary">Add New Task</a>
+            <button type="submit" class="btn btn-primary">Delete completed Tickets</button>
+        </form>
+    </div>
+</div>
