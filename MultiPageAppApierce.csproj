@@ -21,7 +21,6 @@
     <Folder Include="Areas\Admin\Views\Contact\" />
     <Folder Include="Migrations\" />
     <Folder Include="Migrations\Country\" />
-    <Folder Include="Views\Ticket\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
