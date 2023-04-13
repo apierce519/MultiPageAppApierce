@@ -32,7 +32,7 @@
                     @foreach (Ticket tick in Model)
                     {
                     <td>
-                            @if (@tick.StatusId == "open")
+                            @if (@tick.Status.StatusId == "open")
                             {
                             <button type="submit" class="btn btn-primary btn-sm"
                                     name="@nameof(Ticket.Id)" value="@tick.Id">

@@ -23,10 +23,10 @@
         <input asp-for="PointValue" class="form-control" />
     </div>
     <div class="mb-3">
-        <label asp-for="StatusId" class="form-label">Status</label>
-        <select asp-for="StatusId" class="form-select"
+        <label asp-for="Status.StatusId" class="form-label">Status:</label>
+        <select asp-for="Status.StatusId" class="form-select"
                 asp-items="@(new SelectList(ViewBag.Statuses, "StatusId", "Name"))">
-                <option value=""></option>
+                <option value="">-- Select Status --</option>
         </select>
     </div>
 
