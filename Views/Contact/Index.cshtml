@@ -34,7 +34,7 @@
                 <tbody>
                     @foreach (Ticket t in Model)
                     {
-                        @if (@t.StatusId == "open")
+                        @if (@t.Status.StatusId == "open")
                         {
                             <button type="submit" class="btn btn-primary btn-sm"
                                     name="@nameof(t.Id)" value="@t.Id">

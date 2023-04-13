@@ -15,9 +15,8 @@ namespace MultiPageAppApierce.Models
         public int SprintNumber { get; set; }
         [Required(ErrorMessage = "Please enter a point value.")]
         public int PointValue { get; set; }
-        public string StatusId { get; set; } = null!;
-        [Required(ErrorMessage = "Please enter a status.")]
-        public Status Status { get; set; } = null!;
+
+        public Status Status = new Status();
 
     }
 }
